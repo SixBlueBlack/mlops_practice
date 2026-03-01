@@ -14,5 +14,3 @@ train, test = train_test_split(df, test_size=0.2, random_state=22)
 
 train.to_csv('train/digits_train.csv', index=False)
 test.to_csv('test/digits_test.csv', index=False)
-
-print("Обучающий и тестовый наборы сохранены.")

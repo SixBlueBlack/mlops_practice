@@ -3,3 +3,6 @@ target
 *.iml
 **/*.iml
 **/.env
+/lab1/test
+/lab1/train
+**/*.pkl

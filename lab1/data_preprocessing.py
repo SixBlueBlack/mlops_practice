@@ -3,7 +3,6 @@ from sklearn.preprocessing import StandardScaler
 import os
 import joblib
 
-# Создаем папку для сохранения предобработанных данных (опционально)
 os.makedirs('train/preprocessed', exist_ok=True)
 os.makedirs('test/preprocessed', exist_ok=True)
 
@@ -21,14 +20,11 @@ y_train = train_data['label']
 X_test = test_data.drop(columns=['label'])
 y_test = test_data['label']
 
-# Создание и обучение стандартизатора на обучающих данных
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 
-# Применение того же стандартизатора к тестовым данным
 X_test_scaled = scaler.transform(X_test)
 
-# Сохранение предобработанных данных
 # Обучающая выборка
 train_preprocessed = pd.DataFrame(X_train_scaled, columns=X_train.columns)
 train_preprocessed.insert(0, 'label', y_train.values)
@@ -39,11 +35,4 @@ test_preprocessed = pd.DataFrame(X_test_scaled, columns=X_test.columns)
 test_preprocessed.insert(0, 'label', y_test.values)
 test_preprocessed.to_csv('test/preprocessed/digits_test_preprocessed.csv', index=False)
 
-# Сохраняем сам стандартизатор для возможного использования в других скриптах
 joblib.dump(scaler, 'scaler.pkl')
-
-print("Предобработка данных выполнена успешно!")
-print(f"Форма обучающих данных после предобработки: {X_train_scaled.shape}")
-print(f"Форма тестовых данных после предобработки: {X_test_scaled.shape}")
-print(f"Среднее обучающих данных после предобработки: {X_train_scaled.mean():.2f}")
-print(f"Стандартное отклонение обучающих данных после предобработки: {X_train_scaled.std():.2f}")

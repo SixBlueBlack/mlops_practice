@@ -1,1 +1,11 @@
+version: '3.8'
 
+services:
+  emotion-analysis:
+    container_name: emotion-analysis-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1460:1460"
+    restart: unless-stopped

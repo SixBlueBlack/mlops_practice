@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+LABEL maintainer="your-email@example.com"
+LABEL description="Микросервис для анализа эмоций на основе BERT"
+
+WORKDIR /app
+
+# Копирование файла зависимостей
+COPY requirements.in .
+
+# Установка зависимостей
+RUN pip install --upgrade pip \
+    && pip install -r requirements.in
+
+# Копирование исходного кода
+COPY app.py .
+COPY test_predict.py .
+
+# Открытие порта
+EXPOSE 1460
+
+# Запуск приложения
+CMD ["streamlit", "run", "app.py", "--server.port", "1460", "--server.address", "0.0.0.0"]

@@ -1,1 +1,9 @@
-
+transformers
+accelerate
+safetensors
+streamlit
+pytest
+requests
+torch
+torchvision
+torchaudio

@@ -1,10 +1,63 @@
 pipeline {
     agent any
+    
     stages {
-     stage('Hello') {
-                steps {
-                    echo 'Hello world'
+        stage('Checkout') {
+            steps {
+                // Клонирование репозитория с вашим кодом
+                git url: 'https://github.com/ваш-логин/ваш-репозиторий.git', 
+                    branch: 'main',
+                    credentialsId: 'your-git-credentials'
+            }
+        }
+        
+        stage('Install requirements') {
+            steps {
+                dir('lab2') {
+                    sh 'pip install -r requirements.txt'
                 }
             }
-     }
+        }
+        
+        stage('Data Creation') {
+            steps {
+                dir('lab2') {
+                    sh 'python3 data_creation.py'
+                }
+            }
+        }
+        
+        stage('Data Preprocessing') {
+            steps {
+                dir('lab2') {
+                    sh 'python3 data_preprocessing.py'
+                }
+            }
+        }
+        
+        stage('Model Preparation') {
+            steps {
+                dir('lab2') {
+                    sh 'python3 model_preparation.py'
+                }
+            }
+        }
+        
+        stage('Model Testing') {
+            steps {
+                dir('lab2') {
+                    sh 'python3 model_testing.py'
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline выполнен успешно!'
+        }
+        failure {
+            echo 'Pipeline завершился с ошибкой'
+        }
+    }
 }

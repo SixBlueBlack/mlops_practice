@@ -1,1 +1,22 @@
+version: '3.8'
 
+services:
+  streamlit_service:
+    container_name: emotion-analysis-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: ${BUILD_VERSION:-latest}
+    image: ${DOCKER_REGISTRY:-yourusername}/emotion-analysis:${BUILD_VERSION:-latest}
+    ports:
+      - "1460:1460"
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1460"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

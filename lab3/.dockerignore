@@ -14,9 +14,6 @@ venv
 .gitignore
 README.md
 .dockerignore
-Dockerfile
-docker-compose.yml
-test_*.py
 .pytest_cache
 .coverage
 htmlcov

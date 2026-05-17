@@ -8,6 +8,9 @@
 - Веб-интерфейс на Streamlit
 - REST API для интеграции
 
+## Dockerhub
+https://hub.docker.com/r/sibibib/emotion-analysis-service/tags
+
 ## Быстрый старт
 
 ### Запуск с помощью Docker

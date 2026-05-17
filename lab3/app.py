@@ -28,7 +28,6 @@ def predict_emotions(text: str) -> dict:
         emotions_list[LABELS[i]] = predicted.detach().numpy()[0].tolist()[i]
     return emotions_list
 
-# Интерфейс Streamlit
 st.title("Анализ эмоций в тексте")
 st.write("Привет! Напиши предложение, и я оценю выраженные в нём эмоции.")
 
@@ -43,7 +42,6 @@ if prompt:
         result = predict_emotions(prompt)
         st.write('Ваше предложение имеет следующие эмоции:')
         st.write(result)
-        
-        # Показываем основную эмоцию
+
         main_emotion = predict_emotion(prompt)
         st.success(f"Основная эмоция: **{main_emotion}**")

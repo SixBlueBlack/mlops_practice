@@ -1,31 +1,21 @@
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
-import os
-import joblib
+from sklearn.ensemble import RandomForestClassifier
+import pickle
 
-os.makedirs('train/preprocessed', exist_ok=True)
-os.makedirs('test/preprocessed', exist_ok=True)
+train_preprocessed = pd.read_csv("train/preprocessed/digits_train_preprocessed.csv")
 
-train_data = pd.read_csv("train/digits_train.csv")
-test_data = pd.read_csv("test/digits_test.csv")
+X_train = train_preprocessed.drop(columns=['label'])
+y_train = train_preprocessed['label']
 
-X_train = train_data.drop(columns=['label'])
-y_train = train_data['label']
+test_preprocessed = pd.read_csv("test/preprocessed/digits_test_preprocessed.csv")
+X_test = test_preprocessed.drop(columns=['label'])
+y_test = test_preprocessed['label']
 
-X_test = test_data.drop(columns=['label'])
-y_test = test_data['label']
+model = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+model.fit(X_train, y_train)
 
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+train_accuracy = model.score(X_train, y_train)
+test_accuracy = model.score(X_test, y_test)
 
-train_preprocessed = pd.DataFrame(X_train_scaled, columns=X_train.columns)
-train_preprocessed.insert(0, 'label', y_train.values)
-train_preprocessed.to_csv('train/preprocessed/digits_train_preprocessed.csv', index=False)
-
-test_preprocessed = pd.DataFrame(X_test_scaled, columns=X_test.columns)
-test_preprocessed.insert(0, 'label', y_test.values)
-test_preprocessed.to_csv('test/preprocessed/digits_test_preprocessed.csv', index=False)
-
-joblib.dump(scaler, 'scaler.pkl')
-print("Предобработка данных завершена")
+with open('model.pkl', 'wb') as f:
+    pickle.dump(model, f)

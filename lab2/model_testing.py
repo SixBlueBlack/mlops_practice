@@ -11,5 +11,6 @@ X_test = test_data.drop(columns=['label'])
 y_test = test_data['label']
 
 y_pred = model.predict(X_test)
+
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Model test accuracy is: {accuracy:.3f}")

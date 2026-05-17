@@ -1,57 +1,54 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
-                // Клонирование репозитория с вашим кодом
-                git url: 'https://github.com/ваш-логин/ваш-репозиторий.git', 
-                    branch: 'main',
-                    credentialsId: 'your-git-credentials'
+                git url: 'https://github.com/SixBlueBlack/mlops_practice', branch: 'main'
             }
         }
-        
+
         stage('Install requirements') {
             steps {
                 dir('lab2') {
-                    sh 'pip install -r requirements.txt'
+                    bat 'pip install -r requirements.txt'
                 }
             }
         }
-        
-        stage('Data Creation') {
+
+        stage('Model Creation') {
             steps {
                 dir('lab2') {
-                    sh 'python3 data_creation.py'
+                    bat 'python model_creation.py'
                 }
             }
         }
-        
-        stage('Data Preprocessing') {
+
+        stage('Model Preprocessing') {
             steps {
                 dir('lab2') {
-                    sh 'python3 data_preprocessing.py'
+                    bat 'python model_preprocessing.py'
                 }
             }
         }
-        
+
         stage('Model Preparation') {
             steps {
                 dir('lab2') {
-                    sh 'python3 model_preparation.py'
+                    bat 'python model_preparation.py'
                 }
             }
         }
-        
+
         stage('Model Testing') {
             steps {
                 dir('lab2') {
-                    sh 'python3 model_testing.py'
+                    bat 'python model_testing.py'
                 }
             }
         }
     }
-    
+
     post {
         success {
             echo 'Pipeline выполнен успешно!'

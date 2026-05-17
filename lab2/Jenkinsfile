@@ -16,10 +16,10 @@ pipeline {
             }
         }
 
-        stage('Model Creation') {
+        stage('Data Creation') {
             steps {
                 dir('lab2') {
-                    bat 'python model_creation.py'
+                    bat 'python data_creation.py'
                 }
             }
         }
